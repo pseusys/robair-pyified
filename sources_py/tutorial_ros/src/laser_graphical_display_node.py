@@ -1,7 +1,7 @@
 # laser text display
 
 from typing import List, Optional
-from math import pi, sin, cos
+from math import sin, cos
 from pathlib import Path
 
 from rospy import loginfo, Subscriber, Rate, is_shutdown, init_node, spin, Publisher, Time

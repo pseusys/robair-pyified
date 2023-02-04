@@ -13,11 +13,11 @@ Use this by running following commands:
   ```shell
     make run-test RECORD=2017-09-07-16-55-12.bag
   ```
-- To run locally (laser_text_display_node node, 2017-09-07-16-55-12 record):  
+- To run locally (`laser_text_display_node` node, `2017-09-07-16-55-12` record):  
   ```shell
     make run-node RECORD=2017-09-07-16-55-12.bag PACKAGE=tutorial_ros NODE=laser_text_display_node.py
   ```
-- To run on actual robair (laser_text_display_node node, 2017-09-07-16-55-12 record):  
+- To run on actual robair (`laser_text_display_node` node, `2017-09-07-16-55-12` record):  
   ```shell
     make run-phys RECORD=2017-09-07-16-55-12.bag PACKAGE=tutorial_ros NODE=laser_text_display_node.py
   ```
@@ -37,6 +37,6 @@ Use this by running following commands:
   Lab on localization
 
 ## Roadmap
-1. Finish rewriting nodes in Python.
+1. Finish rewriting nodes in Python3.
 2. Clean `CMakeLists.txt` and `package.xml` for each project.
 3. Test on actual robair.
