@@ -12,5 +12,6 @@ include_directories(
 ## This macro ensures modules and global scripts declared therein get installed
 catkin_install_python(PROGRAMS
     src/laser_text_display_node.py
+    src/laser_graphical_display_node.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

@@ -36,7 +36,7 @@ services:
       test: bash entrypoint.sh rosnode list | grep "$${NODE%.*}"
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   rosbag:
     container_name: rosbag-simulation

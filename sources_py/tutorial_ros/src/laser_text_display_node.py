@@ -63,7 +63,7 @@ class LaserTextDisplayNode:
             )
 
     def __call__(self, subscriber_name="scan"):
-        Subscriber(subscriber_name, LaserScan, self.callback)
+        Subscriber(subscriber_name, LaserScan, self.callback, queue_size=1)
 
         # INFINITE LOOP TO COLLECT LASER DATA AND PROCESS THEM
         rate = Rate(10)  # this node will run at 10hz

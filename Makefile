@@ -1,5 +1,5 @@
 .ONESHELL:
-.DEFAULT_GOAL := run-test
+.DEFAULT_GOAL := run-help
 
 RECORD =
 PACKAGE =
@@ -50,7 +50,7 @@ help:
 	echo "	Install 'roslibpy' python package locally for linting, IDE static analysis and testing purposes (supported python versions: 3.6, 3.7, 3.8)."
 	echo "Bonus content:"
 	echo "Add 'BUILD=--build' argument to any command to build 'robair-pyified' image locally instead of pulling."
-	echo "	Example: 'make RECORD=2017-09-07-16-55-12.bag BUILD=--build'"
+	echo "	Example: 'make run-test RECORD=2017-09-07-16-55-12.bag BUILD=--build'"
 	echo "Add 'SOURCES=sources_cpp' argument to 'run-node' or 'run-phys' commands to use legacy C++ nodes instead of default Python."
 	echo "	Example: 'make run-node RECORD=2017-09-07-16-55-12.bag PACKAGE=tutorial_ros NODE=laser_text_display_node'"
 .PHONY: help
