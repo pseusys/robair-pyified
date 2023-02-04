@@ -4,43 +4,28 @@ services:
   rosrun:
     container_name: rosrun-executable
     restart: "no"
+    image: ghcr.io/pseusys/robair-pyified:main
     build:
       context: ..
       dockerfile: docker/Dockerfile
     environment:
-      - FOLDER
+      - PACKAGE
       - NODE
       - ROS_IP=${ROBAIR_IP}
       - ROS_MASTER_URI=http://${ROBAIR_IP}:11311/
     volumes:
       - ../sources_cpp:/~/catkin_ws/src
-    command: bash -c "catkin_make && rosrun $$FOLDER $$NODE"
+    command: bash -c "catkin_make && rosrun $$PACKAGE $$NODE"
     healthcheck:
       test: bash entrypoint.sh rosnode list | grep "$$NODE"
       interval: 10s
       timeout: 5s
-      retries: 3
-
-  rosbag:
-    container_name: rosbag-simulation
-    restart: always
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    environment:
-      - RECORD
-      - ROS_IP=${ROBAIR_IP}
-      - ROS_MASTER_URI=http://${ROBAIR_IP}:11311/
-    volumes:
-      - ../assets/data:/~/catkin_ws/data
-    command: bash -c "rosbag play data/$$RECORD"
-    depends_on:
-      rosrun:
-        condition: service_healthy
+      retries: 5
 
   rviz:
     container_name: rviz-visualization
     restart: "no"
+    image: ghcr.io/pseusys/robair-pyified:main
     build:
       context: ..
       dockerfile: docker/Dockerfile

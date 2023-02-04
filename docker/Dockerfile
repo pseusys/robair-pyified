@@ -1,6 +1,6 @@
 FROM ros:noetic-ros-base-focal
 
-SHELL ["bash", "-c"]
+SHELL ["/bin/bash", "-c"]
 
 ARG DEBIAN_FRONTEND=noninteractive
 
