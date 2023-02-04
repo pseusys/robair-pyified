@@ -1,7 +1,11 @@
 .idea
+venv
 
 docker
 !docker/entrypoint.sh
+
+sources_cpp/CMakeLists.txt
+sources_py/CMakeLists.txt
 
 .gitattributes
 .gitignore

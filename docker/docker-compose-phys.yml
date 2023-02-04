@@ -14,7 +14,7 @@ services:
       - ROS_IP=${ROBAIR_IP}
       - ROS_MASTER_URI=http://${ROBAIR_IP}:11311/
     volumes:
-      - ../sources_cpp:/~/catkin_ws/src
+      - ../${SOURCES}:/~/catkin_ws/src
     command: bash -c "catkin_make && rosrun $$PACKAGE $$NODE"
     healthcheck:
       test: bash entrypoint.sh rosnode list | grep "$$NODE"
@@ -43,7 +43,7 @@ services:
       - ../config:/~/catkin_ws/config
     devices:
       - /dev/dri:/dev/dri
-    command: bash -c "rviz -d /~/catkin_ws/config/$$CONFIG"
+    command: bash -c "rviz -d /~/catkin_ws/config/$$CONFIG 2> >(grep -v TF_REPEATED_DATA buffer_core)"
     depends_on:
       rosrun:
         condition: service_healthy
