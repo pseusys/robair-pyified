@@ -1,0 +1,10 @@
+.idea
+
+docker
+!docker/entrypoint.sh
+
+.gitattributes
+.gitignore
+.dockerignore
+Makefile
+README.md

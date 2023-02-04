@@ -1,0 +1,85 @@
+version: "3.9"
+
+services:
+  roscore:
+    container_name: roscore-master
+    restart: "no"
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: roscore
+    healthcheck:
+      test: bash entrypoint.sh rostopic list
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  rosrun:
+    container_name: rosrun-executable
+    restart: "no"
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    environment:
+      - FOLDER=tutorial_ros
+      - NODE=laser_text_display_node
+      - ROS_MASTER_URI=http://roscore:11311/
+    volumes:
+      - ../sources_cpp:/~/catkin_ws/src
+    command: bash -c "catkin_make && rosrun $$FOLDER $$NODE"
+    depends_on:
+      roscore:
+        condition: service_healthy
+    healthcheck:
+      test: bash entrypoint.sh rosnode list | grep "$$NODE"
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  rosbag:
+    container_name: rosbag-simulation
+    restart: always
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    environment:
+      - RECORD
+      - ROS_MASTER_URI=http://roscore:11311/
+    volumes:
+      - ../assets/data:/~/catkin_ws/data
+    command: bash -c "rosbag play data/$$RECORD"
+    depends_on:
+      roscore:
+        condition: service_healthy
+      rosrun:
+        condition: service_healthy
+
+  rviz:
+    container_name: rviz-visualization
+    restart: "no"
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    environment:
+      - CONFIG
+      - DISPLAY=${DISPLAY}
+      - ROS_MASTER_URI=http://roscore:11311/
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ~/.Xauthority:/root/.Xauthority:ro
+      - ../config:/~/catkin_ws/config
+    devices:
+      - /dev/dri:/dev/dri
+    command: bash -c "rviz -d /~/catkin_ws/config/$$CONFIG"
+    depends_on:
+      roscore:
+        condition: service_healthy
+      rosrun:
+        condition: service_healthy
+
+networks:
+  default-network:
+    driver: host
