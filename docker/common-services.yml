@@ -26,9 +26,9 @@ services:
       - TARGET
     volumes:
       - ../${SOURCES}:/~/catkin_ws/src
-    command: bash -c "catkin_make && python3 generate_launch_config.py $$TARGET > launch && roslaunch launch"
+    command: bash -c "catkin_make && python3 generate_launch_config.py '$TARGET' > launch && roslaunch launch"
     healthcheck:
-      test: test $(($(bash entrypoint.sh rosnode list | tr -cd '\n' | wc -c) - 2)) -eq $(echo $$TARGET | tr -cd '\n' | wc -c)
+      test: test $(($(bash entrypoint.sh rosnode list | tr -cd '\n' | wc -c) - 2)) -eq $(cat launch | grep -c '<node')
       interval: 5s
       timeout: 5s
       retries: 10
@@ -66,7 +66,7 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ~/.Xauthority:/root/.Xauthority:ro
-      - ../config:/~/catkin_ws/config
+      - ../config/${CONFIG}:/~/catkin_ws/config/${CONFIG}
     devices:
       - /dev/dri:/dev/dri
     command: bash -c "rviz -d /~/catkin_ws/config/$$CONFIG 2> >(grep -v TF_REPEATED_DATA buffer_core)"
