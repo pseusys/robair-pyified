@@ -15,6 +15,7 @@ RUN mkdir -p /~/catkin_ws/src
 WORKDIR /~/catkin_ws
 
 COPY docker/entrypoint.sh ./
+COPY docker/generate_launch_config.py ./
 
 RUN source /opt/ros/noetic/setup.bash && catkin_make
 

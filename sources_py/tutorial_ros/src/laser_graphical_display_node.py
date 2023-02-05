@@ -43,7 +43,7 @@ class LaserGraphicalDisplayNode:
         self.angle_min = scan.angle_min
         self.angle_max = scan.angle_max
         self.angle_inc = scan.angle_increment
-        self.nb_beams = int(((-1 * scan.angle_min) + scan.angle_max) / scan.angle_increment)
+        self.nb_beams = self.nb_pts = int(((-1 * scan.angle_min) + scan.angle_max) / scan.angle_increment)
 
         # store the range and the coordinates in cartesian framework of each hit
         beam_angle = self.angle_min
@@ -62,12 +62,9 @@ class LaserGraphicalDisplayNode:
     def update(self):
         # UPDATE: main processing of laser data and robot_moving
         self.new_laser = False
-        loginfo("New data of laser received")
-        self.nb_pts = 0
         for loop in range(self.nb_beams):
-            self.display[self.nb_pts] = self.current_scan[loop]
-            self.colors[self.nb_pts] = ColorRGBA(r=0, g=0, b=1, a=1.0)
-            self.nb_pts += 1
+            self.display[loop] = self.current_scan[loop]
+            self.colors[loop] = ColorRGBA(r=0, g=0, b=1, a=1.0)
 
         self.populate_marker_topic()
 

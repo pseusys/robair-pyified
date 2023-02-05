@@ -3,6 +3,7 @@ venv
 
 docker
 !docker/entrypoint.sh
+!docker/generate_launch_config.py
 
 sources_cpp/CMakeLists.txt
 sources_py/CMakeLists.txt

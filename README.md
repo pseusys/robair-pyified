@@ -11,15 +11,15 @@ It might be useful in case of static analysers or linters usage.
 Use this by running following commands:
 - To test the system:  
   ```shell
-    make run-test RECORD=2017-09-07-16-55-12.bag
+    make run-test ENV=.conf.env
   ```
-- To run locally (`laser_text_display_node` node, `2017-09-07-16-55-12` record):  
+- To run locally (`laser_text_display_node` node, `2017-09-07-16-55-12` record, defined in `.conf.env`):  
   ```shell
-    make run-node RECORD=2017-09-07-16-55-12.bag PACKAGE=tutorial_ros NODE=laser_text_display_node.py
+    make run-node ENV=.conf.env
   ```
-- To run on actual robair (`laser_text_display_node` node, `2017-09-07-16-55-12` record):  
+- To run on actual robair (`laser_text_display_node` node, `2017-09-07-16-55-12` record, defined in `.conf.env`):  
   ```shell
-    make run-phys RECORD=2017-09-07-16-55-12.bag PACKAGE=tutorial_ros NODE=laser_text_display_node.py
+    make run-phys ENV=.conf.env
   ```
 
 ## Structure
