@@ -1,13 +1,14 @@
 # RobAIR-TP-Sources Pyified
 
-Based on the [sources](https://gricad-gitlab.univ-grenoble-alpes.fr/boulayen/robair-tp-config) and [configurations](https://gricad-gitlab.univ-grenoble-alpes.fr/boulayen/robair-tp-sources) repositories.  
+Based on the [sources](https://gricad-gitlab.univ-grenoble-alpes.fr/boulayen/robair-tp-sources) and [configurations](https://gricad-gitlab.univ-grenoble-alpes.fr/boulayen/robair-tp-config) repositories.  
 Source files for robotics projects around [RobAIR](https://github.com/fabMSTICLig/RobAIR) as part of [Olivier Aycard's courses](https://lig-membres.imag.fr/aycard/index.php?&slt=enseignement).
 
-Now rewritten for use with Python3 instead of C++ and moved toDocker not to be dependent on dedicated laptops.  
-Project also optionally requires the [rospy for pure Python](https://github.com/rospypi/simple) project.
+Now rewritten for use with Python3 instead of C++ and moved to Docker not to be dependent on dedicated laptops.  
+Project also optionally requires the [rospy for pure Python](https://github.com/rospypi/simple) library.
 It might be useful in case of static analysers or linters usage.
 
 ## Build & run
+
 Use this by running following commands:
 - To test the system:  
   ```shell
@@ -23,6 +24,7 @@ Use this by running following commands:
   ```
 
 ## Params and args
+
 There are currently three different ways to run the project:
 1. `run-test` - minimalistic configuration, no nodes, might be used to ensure system works as expected.  
    Launches containers with: `roscore` (emulation root), `rosbag` (recorded simulation), `rviz` graphical user interface.
@@ -63,6 +65,7 @@ The following convenience configuration options are also might be handy:
 See `make help` command output for detailed info with examples and other targets description.
 
 ## Structure
+
 - `assets/data`  
   Data for perception
 - `assets/map`  
@@ -77,6 +80,18 @@ See `make help` command output for detailed info with examples and other targets
   Lab on localization
 
 ## Roadmap
+
 1. Finish rewriting nodes in Python3.
 2. Clean `CMakeLists.txt` and `package.xml` for each project.
 3. Test on actual RobAIR.
+4. Add `gazebo` configuration and target.
+
+## Requirements
+
+All of this *should* be available on every Linux + WSL:
+- `Docker` version 20+
+- `docker-compose` version 2+
+- `make` version 3+
+
+For Python linting and static analysis:
+- `python3` version 3.6-3.8
