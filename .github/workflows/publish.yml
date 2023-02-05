@@ -11,6 +11,12 @@ on:
 jobs:
   publish-ros-desktop-image:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - target: ros-desktop
+          - target: ros-launcher
+          - target: ros-gazebo
     permissions:
       contents: read
       packages: write
@@ -30,7 +36,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: ghcr.io/${{ github.repository }}/${{ matrix.target }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -41,6 +47,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           file: docker/Dockerfile
+          target: ${{ matrix.target }}
           push: ${{ github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/releases') }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

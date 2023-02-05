@@ -4,10 +4,11 @@ services:
   roscore:
     container_name: roscore-master
     restart: "no"
-    image: ghcr.io/pseusys/robair-pyified:main
+    image: ghcr.io/pseusys/robair-pyified/ros-desktop:main
     build:
       context: ..
       dockerfile: docker/Dockerfile
+      target: ros-desktop
     command: roscore
     healthcheck:
       test: bash entrypoint.sh rostopic list
@@ -18,10 +19,11 @@ services:
   roslaunch:
     container_name: roslaunch-executable
     restart: "no"
-    image: ghcr.io/pseusys/robair-pyified:main
+    image: ghcr.io/pseusys/robair-pyified/ros-launch:main
     build:
       context: ..
       dockerfile: docker/Dockerfile
+      target: ros-launcher
     environment:
       - TARGET
     volumes:
@@ -36,10 +38,11 @@ services:
   rosbag:
     container_name: rosbag-simulation
     restart: always
-    image: ghcr.io/pseusys/robair-pyified:main
+    image: ghcr.io/pseusys/robair-pyified/ros-desktop:main
     build:
       context: ..
       dockerfile: docker/Dockerfile
+      target: ros-desktop
     environment:
       - RECORD
       - ROS_MASTER_URI=http://roscore:11311/
@@ -53,10 +56,12 @@ services:
   rviz:
     container_name: rviz-visualization
     restart: "no"
-    image: ghcr.io/pseusys/robair-pyified:main
+    privileged: true
+    image: ghcr.io/pseusys/robair-pyified/ros-desktop:main
     build:
       context: ..
       dockerfile: docker/Dockerfile
+      target: ros-desktop
     environment:
       - CONFIG
       - DISPLAY=${DISPLAY}
