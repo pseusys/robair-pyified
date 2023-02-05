@@ -49,10 +49,10 @@ help:
 	echo "	Install 'roslibpy' python package locally for linting, IDE static analysis and testing purposes (supported python versions: 3.6, 3.7, 3.8)."
 	echo "Bonus content:"
 	echo "- Add 'BUILD=--build' argument to any command to build 'robair-pyified' image locally instead of pulling."
-	echo "		Example: 'make run-test RECORD=2017-09-07-16-55-12.bag BUILD=--build'"
+	echo "	Example: 'make run-test BUILD=--build'"
 	echo "- Add 'SOURCES=sources_cpp' argument to 'run-node' or 'run-phys' commands to use legacy C++ nodes instead of default Python."
 	echo "	Note that C++ node names do not require file extension."
-	echo "	Example: 'make run-node RECORD=2017-09-07-16-55-12.bag TARGET=tutorial_ros/laser_text_display_node'"
+	echo "	Example: 'make run-node SOURCES=sources_cpp TARGET=tutorial_ros/laser_text_display_node'"
 	echo "- Any of the arguments can be read from .ENV file using 'ENV=[ENV_FILE_NAME]' parameter."
 	echo "	Example: 'make run-test ENV=.conf.env'"
 .PHONY: help
