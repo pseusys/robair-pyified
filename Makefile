@@ -89,7 +89,7 @@ run-phys:
 run-gaze:
 	@ # Run target TARGET on record RECORD on actual ROBAIR_IP
 	xhost +local:docker
-	docker-compose -f ./docker/docker-compose-gaze.yml up --force-recreate --build
+	docker-compose -f ./docker/docker-compose-gaze.yml up --force-recreate $(BUILD)
 .PHONY: run-gaze
 
 

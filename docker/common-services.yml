@@ -74,4 +74,4 @@ services:
       - ../config/${CONFIG}:/~/catkin_ws/config/${CONFIG}
     devices:
       - /dev/dri:/dev/dri
-    command: bash -c "rviz -d /~/catkin_ws/config/$$CONFIG 2> >(grep -v TF_REPEATED_DATA buffer_core)"
+    command: bash -c "rviz -d /~/catkin_ws/config/$$CONFIG 2> >(grep -v TF_REPEATED_DATA)"
