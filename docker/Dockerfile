@@ -23,7 +23,7 @@ CMD ["rosversion", "ros"]
 
 FROM ros-desktop as ros-launcher
 
-COPY docker/generate_launch_config.py ./
+COPY docker/launch_config.py ./
 
 
 FROM ros-desktop as ros-gazebo

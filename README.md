@@ -37,10 +37,10 @@ The following configuration options are supported:
 1. `RECORD` (required for `run-test` and `run-node`) - name of the file, containing recorded data to launch `rosbag` tool.  
    Records should be placed in the `assets/data` directory.
 2. `TARGET` (required for `run-node` and `run-phys`) - description of nodes to launch with `roslaunch` tool. The nodes can be described in two ways:  
-   1. As a string, formatted like: `PROJECT_1/NODE_1[;PROJECT_2/NODE_2...]`.  
+   1. As a string, formatted like: `PROJECT_1/NODE_1[:PROJECT_2/NODE_2...]`.  
       Example of such string to launch two nodes (`laser_text_display_node` and `laser_graphical_display_node`):
       ```text
-      tutorial_ros/laser_text_display_node.py;tutorial_ros/laser_graphical_display_node.py
+      tutorial_ros/laser_text_display_node.py:tutorial_ros/laser_graphical_display_node.py
       ```
    2. Path to [roslaunch file](http://wiki.ros.org/roslaunch/XML), located under one of the source roots and relative to it. NB! File has to have '.launch' extension.  
       Example of file to launch two nodes (`laser_text_display_node` and `laser_graphical_display_node`, file location: `./sources_py/nodes.launch`):
@@ -95,3 +95,10 @@ All of this *should* be available on every Linux + WSL:
 
 For Python linting and static analysis:
 - `python3` version 3.6-3.8
+
+For gazebo models editing:
+- `gazebo` and `libgazebo-dev`, any version you prefer.  
+  Please, refer to [installation guide](https://classic.gazebosim.org/tutorials?cat=install) for detailed instructions.  
+  Also always check your distribution package manager for the packages name (they may be `gazebo`, `gazebo9` or `gazebo11`).  
+  Keep in mind, that the official installation process is described for pure Ubuntu, Debian, etc., so if you use a derivative from one of them (e.g. Mint),
+  you will have to replace the output of `lsb_release -cs` command with the one from your parent system.

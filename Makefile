@@ -26,7 +26,7 @@ help:
 	echo "	- 'RECORD=[RECORD_NAME]' will launch ROSBAG for record 'RECORD_NAME' (required!)."
 	echo "		Example: 'make run-node ENV=.conf.env RECORD=2017-09-07-16-55-12.bag'"
 	echo "	- 'TARGET=[PACKAGE_NAME]/[NODE_NAME]' will execute ROSLAUNCH for package 'PACKAGE_NAME' for node 'NODE_NAME' OR 'TARGET=[FILE_NAME]' will execute ROSLAUNCH for 'FILE_NAME' (required!)."
-	echo "		Note that multiple target definition is supported, in that case they should be separated by ';'."
+	echo "		Note that multiple target definition is supported, in that case they should be separated by ':'."
 	echo "		Note if 'TARGET' is a file name, the file should be placed under sources root and have '.launch' extension, not to be confused with node files."
 	echo "		Example: 'make run-node ENV=.conf.env TARGET=tutorial_ros/laser_text_display_node.py'"
 	echo "	- 'CONFIG=[CONFIG_FILE]' will set RVIZ default configuration to 'CONFIG_FILE' (not required, default: 'config-laser.rviz')."
@@ -34,7 +34,7 @@ help:
 	echo "- 'make run-phys':"
 	echo "	Run node on physical ROBAIR device. Accepts following args:"
 	echo "	- 'TARGET=[PACKAGE_NAME]/[NODE_NAME]' will execute ROSLAUNCH for package 'PACKAGE_NAME' for node 'NODE_NAME' OR 'TARGET=[FILE_NAME]' will execute ROSLAUNCH for 'FILE_NAME' (required!)."
-	echo "		Note that multiple target definition is supported, in that case they should be separated by ';'."
+	echo "		Note that multiple target definition is supported, in that case they should be separated by ':'."
 	echo "		Note if 'TARGET' is a file name, the file should be placed under sources root and have '.launch' extension, not to be confused with node files."
 	echo "		Example: 'make run-node ENV=.conf.env TARGET=tutorial_ros/laser_text_display_node.py'"
 	echo "	- 'ROBAIR_IP=[IP_STRING]' will set ROS_IP to 'IP_STRING' (not required, default: '192.168.0.174')."
@@ -47,12 +47,6 @@ help:
 	echo "	Display this message again."
 	echo "- 'make venv':"
 	echo "	Install 'roslibpy' python package locally for linting, IDE static analysis and testing purposes (supported python versions: 3.6, 3.7, 3.8)."
-	echo "- 'make install-gazebo':"
-	echo "	Install 'gazebo' locally. This target is highly experimental and might not work as expected. Please, refer to installation guide https://classic.gazebosim.org/tutorials?cat=install for detailed instructions."
-	echo "	This particular target (in its current configuration) is installing 'gazebo' packages on your Ubuntu device. Availability might be checked here: https://packages.ubuntu.com/search?suite=all&section=all&arch=any&keywords=gazebo&searchon=sourcenames."
-	echo "	If your system is a derivative from Ubuntu (e.g. Mint), you can use 'UBUNTU_RELEASE' variable to set Ubuntu release corresponding to your system."
-	echo "	As the target installs packages, it also requires sudo privileges."
-	echo "	Example (I used on my Mint 21.1): 'sudo make install-gazebo UBUNTU_RELEASE=jammy'"
 	echo "Bonus content:"
 	echo "- Add 'BUILD=--build' argument to any command to build 'robair-pyified' image locally instead of pulling."
 	echo "	Example: 'make run-test ENV=.conf.env BUILD=--build'"
@@ -92,18 +86,6 @@ run-gaze:
 	docker-compose -f ./docker/docker-compose-gaze.yml up --force-recreate $(BUILD)
 .PHONY: run-gaze
 
-
-UBUNTU_RELEASE =
-
-install-gazebo:
-	@ # Install gazebo (with GUI) on the current system for robots prototyping
-	test -n "$(UBUNTU_RELEASE)" || UBUNTU_RELEASE=`lsb_release -cs`
-	sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable $(UBUNTU_RELEASE) main" > /etc/apt/sources.list.d/gazebo-stable.list'
-	wget https://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
-	sudo apt-get update
-	sudo apt-get install -y gazebo libgazebo-dev
-	gazebo
-.PHONY: install-gazebo
 
 venv:
 	@ # Create virtual python environment for linting purposes

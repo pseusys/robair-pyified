@@ -28,9 +28,9 @@ services:
       - TARGET
     volumes:
       - ../${SOURCES}:/~/catkin_ws/src
-    command: bash -c "catkin_make && python3 generate_launch_config.py '$TARGET' > launch && roslaunch launch"
+    command: bash -c "catkin_make && python3 launch_config.py -s '$TARGET' launch && roslaunch launch"
     healthcheck:
-      test: test $(($(bash entrypoint.sh rosnode list | tr -cd '\n' | wc -c) - 2)) -eq $(cat launch | grep -c '<node')
+      test: python3 launch_config.py -c "$(bash entrypoint.sh rosnode list)" launch
       interval: 5s
       timeout: 5s
       retries: 10

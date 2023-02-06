@@ -5,7 +5,7 @@ on:
     paths:
       - 'docker/Dockerfile'
       - 'docker/entrypoint.sh'
-      - 'docker/generate_launch_config.py'
+      - 'docker/launch_config.py'
       - '.github/workflows/publish.yml'
 
 jobs:
