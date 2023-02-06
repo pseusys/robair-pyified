@@ -97,6 +97,6 @@ venv:
 clean:
 	@ # Remove created docker containers and venv dir
 	docker rm -f roscore-master roslaunch-executable rosbag-simulation rviz-visualization 2> /dev/null || true
-	docker rmi $(docker images | grep "robair-pyified-*") 2> /dev/null || true
+	docker rmi $(docker images | grep "ghcr.io/pseusys/robair-pyified/*") 2> /dev/null || true
 	rm -rf venv 2> /dev/null
 .PHONY: clean
