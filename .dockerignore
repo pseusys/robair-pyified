@@ -1,3 +1,5 @@
+.github
+.vscode
 .idea
 venv
 
@@ -5,9 +7,11 @@ docker
 !docker/entrypoint.sh
 !docker/launch_config.py
 
-sources_cpp/CMakeLists.txt
-sources_py/CMakeLists.txt
+gazebo
 
+sources_*/CMakeLists.txt
+
+.conf.env
 .gitattributes
 .gitignore
 .dockerignore
