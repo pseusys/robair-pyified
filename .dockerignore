@@ -7,9 +7,8 @@ docker
 !docker/entrypoint.sh
 !docker/launch_config.py
 
-gazebo
-
 sources_*/CMakeLists.txt
+gazebo/CMakeLists.txt
 
 .conf.env
 .gitattributes

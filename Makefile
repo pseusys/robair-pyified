@@ -2,10 +2,11 @@
 .EXPORT_ALL_VARIABLES:
 .DEFAULT_GOAL := help
 
-include $(ENV)
 CONFIG = config-laser.rviz
 ROBAIR_IP = 192.168.0.174
 SOURCES = sources_py
+GAZEBO_GUI = true
+include $(ENV)
 
 SHELL = /bin/bash
 PATH := venv/bin:$(PATH)
@@ -59,6 +60,7 @@ run-phys:
 
 run-gaze:
 	@ # Run target TARGET on Gazebo emulation with GAZEBO_IP
+	test -n "$(GAZEBO_GUI)" || { echo "Please, specify GAZEBO_GUI env var!"; exit 1; }
 	xhost +local:docker
 	docker-compose -f ./docker/docker-compose-gaze.yml up --force-recreate $(BUILD)
 .PHONY: run-gaze

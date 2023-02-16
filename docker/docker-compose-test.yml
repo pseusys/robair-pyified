@@ -16,7 +16,11 @@ services:
       file: common-services.yml
       service: rviz
     environment:
+      - CONFIG
       - ROS_MASTER_URI=http://roscore:11311/
+    volumes:
+      - ../config/${CONFIG}:/~/catkin_ws/config/${CONFIG}
+    command: bash -c "rviz -d /~/catkin_ws/config/$$CONFIG 2> >(grep -v TF_REPEATED_DATA)"
     depends_on:
       roscore:
         condition: service_healthy

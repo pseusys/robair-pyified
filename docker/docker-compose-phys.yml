@@ -6,7 +6,6 @@ services:
       file: common-services.yml
       service: roslaunch
     environment:
-      - ROS_IP=${ROBAIR_IP}
       - ROS_MASTER_URI=http://${ROBAIR_IP}:11311/
 
   rviz:
@@ -14,8 +13,11 @@ services:
       file: common-services.yml
       service: rviz
     environment:
-      - ROS_IP=${ROBAIR_IP}
+      - CONFIG
       - ROS_MASTER_URI=http://${ROBAIR_IP}:11311/
+    volumes:
+      - ../config/${CONFIG}:/~/catkin_ws/config/${CONFIG}
+    command: bash -c "rviz -d /~/catkin_ws/config/$$CONFIG 2> >(grep -v TF_REPEATED_DATA)"
     depends_on:
       roslaunch:
         condition: service_healthy

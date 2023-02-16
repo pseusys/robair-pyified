@@ -3,4 +3,6 @@
 venv
 
 sources_*/CMakeLists.txt
+gazebo/CMakeLists.txt
+
 sources_*/**.launch

@@ -63,7 +63,6 @@ services:
       dockerfile: docker/Dockerfile
       target: ros-desktop
     environment:
-      - CONFIG
       - DISPLAY=${DISPLAY}
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
@@ -71,7 +70,5 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - ~/.Xauthority:/root/.Xauthority:ro
-      - ../config/${CONFIG}:/~/catkin_ws/config/${CONFIG}
     devices:
       - /dev/dri:/dev/dri
-    command: bash -c "rviz -d /~/catkin_ws/config/$$CONFIG 2> >(grep -v TF_REPEATED_DATA)"
