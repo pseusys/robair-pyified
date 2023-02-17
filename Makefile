@@ -6,6 +6,7 @@ CONFIG = config-laser.rviz
 ROBAIR_IP = 192.168.0.174
 SOURCES = sources_py
 GAZEBO_GUI = true
+ENV = .conf.env
 include $(ENV)
 
 SHELL = /bin/bash
@@ -21,7 +22,9 @@ help:
 	echo "- 'make run-node':"
 	echo "	Run node in emulation, using saved record."
 	echo "- 'make run-phys':"
-	echo "	Run node on physical RobAIR device. Accepts following args:"
+	echo "	Run node on physical RobAIR device."
+	echo "- 'make run-gaze':"
+	echo "	Run node on Gazebo RobAIR simulation."
 	echo "- 'make clean':"
 	echo "	Clean all locally built docker images and remove containers and venv directory."
 	echo "- 'make venv':"
