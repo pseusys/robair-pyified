@@ -32,8 +32,6 @@ There are currently three different ways to run the project:
    Launches containers with: `roscore` (emulation root), `roslaunch` (running nodes), `rosbag` (recorded simulation), `rviz` graphical user interface.
 3. `run-phys` - runs nodes on actual RobAIR.  
    Launches containers with: `roslaunch` (running nodes), `rviz` graphical user interface.
-4. `run-gaze` - runs nodes on Gazebo RobAIR simulation.  
-   Launches containers with: `roscore` (emulation root), `gazebo` (gazebo simulation), `roslaunch` (running nodes).
 
 The following configuration options are supported:
 1. `RECORD` (required for `run-test` and `run-node`) - name of the file, containing recorded data to launch `rosbag` tool.  
@@ -59,8 +57,6 @@ The following configuration options are supported:
    _Example:_ `make run-test ENV=.conf.env CONFIG=config-laser.rviz`
 4. `ROBAIR_IP` (required for `run-phys`, default value: `192.168.0.174`) - IP address of RobAIR to connect.
    _Example:_ `make run-phys ENV=.conf.env ROBAIR_IP=192.168.0.174`
-5. `GAZEBO_GUI` (required for `run-gaze`, default value: `true`) - whether Gazebo user interface should be started.
-   _Example:_ `make run-gaze ENV=.conf.env GAZEBO_GUI=false`
 
 The following convenience configuration options are also might be handy:
 1. `BUILD=--build` might be added to any target to rebuild Docker image locally.  
@@ -105,10 +101,3 @@ All of this *should* be available on every Linux + WSL:
 
 For Python linting and static analysis:
 - `python3` version 3.6-3.8
-
-For gazebo models editing:
-- `gazebo` and `libgazebo-dev`, any version you prefer.  
-  Please, refer to [installation guide](https://classic.gazebosim.org/tutorials?cat=install) for detailed instructions.  
-  Also always check your distribution package manager for the packages name (they may be `gazebo`, `gazebo9` or `gazebo11`).  
-  Keep in mind, that the official installation process is described for pure Ubuntu, Debian, etc., so if you use a derivative from one of them (e.g. Mint),
-  you will have to replace the output of `lsb_release -cs` command with the one from your parent system.

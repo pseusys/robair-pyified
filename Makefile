@@ -5,7 +5,6 @@
 CONFIG = config-laser.rviz
 ROBAIR_IP = 192.168.0.174
 SOURCES = sources_py
-GAZEBO_GUI = true
 ENV = .conf.env
 include $(ENV)
 
@@ -23,8 +22,6 @@ help:
 	echo "	Run node in emulation, using saved record."
 	echo "- 'make run-phys':"
 	echo "	Run node on physical RobAIR device."
-	echo "- 'make run-gaze':"
-	echo "	Run node on Gazebo RobAIR simulation."
 	echo "- 'make clean':"
 	echo "	Clean all locally built docker images and remove containers and venv directory."
 	echo "- 'make venv':"
@@ -60,13 +57,6 @@ run-phys:
 	xhost +local:docker
 	docker-compose -f ./docker/docker-compose-phys.yml up --force-recreate $(BUILD)
 .PHONY: run-phys
-
-run-gaze:
-	@ # Run target TARGET on Gazebo emulation with GAZEBO_IP
-	test -n "$(GAZEBO_GUI)" || { echo "Please, specify GAZEBO_GUI env var!"; exit 1; }
-	xhost +local:docker
-	docker-compose -f ./docker/docker-compose-gaze.yml up --force-recreate $(BUILD)
-.PHONY: run-gaze
 
 
 venv:

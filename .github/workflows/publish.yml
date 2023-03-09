@@ -16,7 +16,6 @@ jobs:
         include:
           - target: ros-desktop
           - target: ros-launcher
-          - target: ros-gazebo
     permissions:
       contents: read
       packages: write
