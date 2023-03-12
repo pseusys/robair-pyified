@@ -5,7 +5,7 @@ services:
     container_name: roslaunch-combined-environment
     restart: "no"
     privileged: true
-    image: ghcr.io/pseusys/robair-pyified/ros-desktop-settled:main
+    image: ghcr.io/pseusys/robair-pyified/ros-desktop-settled:master
     build:
       context: ..
       dockerfile: docker/Dockerfile

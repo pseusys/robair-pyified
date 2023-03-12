@@ -40,6 +40,7 @@ run-node:
 	test -n "$(TARGET)" || { echo "Please, specify TARGET env var!"; exit 1; }
 	xhost +local:docker
 	export LAUNCH=config/ros-node.launch
+	docker-compose -f ./docker/docker-compose.yml pull
 	docker-compose -f ./docker/docker-compose.yml up --force-recreate $(BUILD)
 .PHONY: run-node
 
@@ -62,6 +63,6 @@ venv:
 clean:
 	@ # Remove created docker containers and venv dir
 	docker rm -f roslaunch-combined-environment 2> /dev/null || true
-	docker rmi ghcr.io/pseusys/robair-pyified/ros-launch:main 2> /dev/null || true
+	docker rmi ghcr.io/pseusys/robair-pyified/ros-desktop-settled:master 2> /dev/null || true
 	rm -rf venv 2> /dev/null
 .PHONY: clean
