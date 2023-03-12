@@ -1,4 +1,0 @@
-<launch>
-	<node name="laser_text_display_node" pkg="tutorial_ros" type="laser_text_display_node.py" output="screen" />
-	<node name="laser_graphical_display_node" pkg="tutorial_ros" type="laser_graphical_display_node.py" output="screen" />
-</launch>

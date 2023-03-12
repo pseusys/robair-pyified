@@ -4,18 +4,13 @@ on:
   push:
     paths:
       - 'docker/Dockerfile'
+      - 'docker/config_*.py'
       - 'docker/entrypoint.sh'
-      - 'docker/launch_config.py'
       - '.github/workflows/publish.yml'
 
 jobs:
   publish-ros-desktop-image:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - target: ros-desktop
-          - target: ros-launcher
     permissions:
       contents: read
       packages: write
@@ -35,7 +30,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/${{ github.repository }}/${{ matrix.target }}
+          images: ghcr.io/${{ github.repository }}/ros-desktop-settled
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -46,7 +41,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           file: docker/Dockerfile
-          target: ${{ matrix.target }}
           push: ${{ github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/heads/releases') }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

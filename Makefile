@@ -3,7 +3,7 @@
 .DEFAULT_GOAL := help
 
 CONFIG = config-laser.rviz
-ROBAIR_IP = 192.168.0.174
+ROBAIR_IP = 192.168.0.175
 SOURCES = sources_py
 ENV = .conf.env
 include $(ENV)
@@ -16,8 +16,6 @@ help:
 	@ # Print help output
 	echo "Welcome to 'robair-pyified'!"
 	echo "The following commands are available:"
-	echo "- 'make run-test':"
-	echo "	Run system demo, without any node."
 	echo "- 'make run-node':"
 	echo "	Run node in emulation, using saved record."
 	echo "- 'make run-phys':"
@@ -36,26 +34,21 @@ help:
 .PHONY: help
 
 
-run-test:
-	@ # Run test on record RECORD
-	test -n "$(RECORD)" || { echo "Please, specify RECORD env var!"; exit 1; }
-	xhost +local:docker
-	docker-compose -f ./docker/docker-compose-test.yml up --force-recreate $(BUILD)
-.PHONY: run-test
-
 run-node:
 	@ # Run target TARGET on record RECORD
 	test -n "$(RECORD)" || { echo "Please, specify RECORD env var!"; exit 1; }
 	test -n "$(TARGET)" || { echo "Please, specify TARGET env var!"; exit 1; }
 	xhost +local:docker
-	docker-compose -f ./docker/docker-compose-node.yml up --force-recreate $(BUILD)
+	export LAUNCH=config/ros-node.launch
+	docker-compose -f ./docker/docker-compose.yml up --force-recreate $(BUILD)
 .PHONY: run-node
 
 run-phys:
 	@ # Run target TARGET on actual RobAIR with ROBAIR_IP
 	test -n "$(TARGET)" || { echo "Please, specify TARGET env var!"; exit 1; }
 	xhost +local:docker
-	docker-compose -f ./docker/docker-compose-phys.yml up --force-recreate $(BUILD)
+	export LAUNCH=config/ros-phys.launch
+	docker-compose -f ./docker/docker-compose.yml up --force-recreate $(BUILD)
 .PHONY: run-phys
 
 
@@ -68,7 +61,7 @@ venv:
 
 clean:
 	@ # Remove created docker containers and venv dir
-	docker rm -f roscore-master roslaunch-executable rosbag-simulation rviz-visualization 2> /dev/null || true
-	docker rmi $(docker images | grep "ghcr.io/pseusys/robair-pyified/*") 2> /dev/null || true
+	docker rm -f roslaunch-combined-environment 2> /dev/null || true
+	docker rmi ghcr.io/pseusys/robair-pyified/ros-launch:main 2> /dev/null || true
 	rm -rf venv 2> /dev/null
 .PHONY: clean
