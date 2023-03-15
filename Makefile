@@ -2,14 +2,20 @@
 .EXPORT_ALL_VARIABLES:
 .DEFAULT_GOAL := help
 
+SHELL = /bin/bash
+PATH := venv/bin:$(PATH)
+
+
 CONFIG = config-laser.rviz
 ROBAIR_IP = 192.168.0.175
 SOURCES = sources_py
+
+LAUNCH =
+RECORD =
+TARGET =
+
 ENV = .conf.env
 include $(ENV)
-
-SHELL = /bin/bash
-PATH := venv/bin:$(PATH)
 
 
 help:
@@ -39,8 +45,7 @@ run-node:
 	test -n "$(RECORD)" || { echo "Please, specify RECORD env var!"; exit 1; }
 	test -n "$(TARGET)" || { echo "Please, specify TARGET env var!"; exit 1; }
 	xhost +local:docker
-	export LAUNCH=config/ros-node.launch
-	docker-compose -f ./docker/docker-compose.yml pull
+	export LAUNCH=config/ros-node.launch:$(LAUNCH)
 	docker-compose -f ./docker/docker-compose.yml up --force-recreate $(BUILD)
 .PHONY: run-node
 
@@ -48,7 +53,7 @@ run-phys:
 	@ # Run target TARGET on actual RobAIR with ROBAIR_IP
 	test -n "$(TARGET)" || { echo "Please, specify TARGET env var!"; exit 1; }
 	xhost +local:docker
-	export LAUNCH=config/ros-phys.launch
+	export LAUNCH=config/ros-phys.launch:$(LAUNCH)
 	docker-compose -f ./docker/docker-compose.yml up --force-recreate $(BUILD)
 .PHONY: run-phys
 

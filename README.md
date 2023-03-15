@@ -37,8 +37,8 @@ The following configuration options are supported:
       ```text
       tutorial_ros/laser_text_display_node.py:tutorial_ros/laser_graphical_display_node.py
       ```
-   2. Path to [roslaunch file](http://wiki.ros.org/roslaunch/XML), located under one of the source roots and relative to it. NB! File has to have '.launch' extension.  
-      Example of file to launch two nodes (`laser_text_display_node` and `laser_graphical_display_node`, file location: `./sources_py/nodes.launch`):
+   2. Paths to [roslaunch files](http://wiki.ros.org/roslaunch/XML), located under the `config` directory, relative to it and divided by ':'. NB! File has to have '.launch' extension.  
+      Example of file to launch two nodes (`laser_text_display_node` and `laser_graphical_display_node`, file location: `./config/nodes.launch`):
       ```xml
       <launch>
 	      <node name="laser_text_display_node" pkg="tutorial_ros" type="laser_text_display_node.py" output="screen" />

@@ -2,6 +2,10 @@
 .idea
 venv
 
+config/*.launch
+!config/ros-node.launch
+!config/ros-phys.launch
+
 sources_*/CMakeLists.txt
 
 sources_*/**.launch
