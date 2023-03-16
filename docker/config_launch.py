@@ -15,7 +15,7 @@ with target_file.open("w") as file:
 
     if args["include"] is not None:
         for source in [source for source in args["include"].split(":") if source != ""]:
-            file.write(f'\t<include file="{source}"/>\n')
+            file.write(f'\t<include file="config/{source}"/>\n')
 
     if args["source"] is not None:
         for package, node in [target.split("/") for target in args["source"].split(":")]:

@@ -7,14 +7,18 @@ PATH := venv/bin:$(PATH)
 
 
 CONFIG = config-laser.rviz
-ROBAIR_IP = 192.168.0.175
 SOURCES = sources_py
+EXTRA =
 
+ROBAIR_IP =
+CONTAINER_IP =
+
+NETWORK =
 LAUNCH =
-RECORD =
 TARGET =
+RECORD =
 
-ENV = .conf.env
+ENV = example.env
 include $(ENV)
 
 
@@ -22,39 +26,50 @@ help:
 	@ # Print help output
 	echo "Welcome to 'robair-pyified'!"
 	echo "The following commands are available:"
-	echo "- 'make run-node':"
-	echo "	Run node in emulation, using saved record."
-	echo "- 'make run-phys':"
-	echo "	Run node on physical RobAIR device."
+	echo "- 'make run':"
+	echo "	Run node in emulation or on actual RobAIR if network is defined."
 	echo "- 'make clean':"
 	echo "	Clean all locally built docker images and remove containers and venv directory."
 	echo "- 'make venv':"
 	echo "	Install 'roslibpy' python package locally for linting, IDE static analysis and testing purposes."
 	echo "- 'make help' (equal to 'make'):"
 	echo "	Display this message again."
-	echo "Bonus content:"
-	echo "- Add 'BUILD=--build' argument to any command to build 'robair-pyified' image locally instead of pulling."
-	echo "- Add 'SOURCES=sources_cpp' argument to 'run-node' or 'run-phys' commands to use legacy C++ nodes instead of default Python."
+	echo -e "\nBonus content:"
+	echo "- Add 'EXTRA=--build' argument to any command to build 'robair-pyified' image locally instead of pulling."
+	echo "- Add 'SOURCES=sources_cpp' argument to 'run' command to use legacy C++ nodes instead of default Python."
 	echo "- Any of the arguments can be read from .ENV file using 'ENV=<ENV_FILE_NAME>' parameter."
 	echo "See the argument description in the 'README.md' file!"
+	echo -e "\nNetwork interface discovery report can be found below:"
+	ls -l /sys/class/net/ | grep -v virtual | awk '{print $$9}' | grep '\S'| while read -r interface; do
+		echo -n "- '$$interface': "
+		[[ -d  /sys/class/net/"$$interface"/wireless ]] && echo -n "WIRELESS " || echo -n "WIRED "
+		[[ `cat /sys/class/net/"$$interface"/operstate` == "up" ]] && echo -n "UP " || echo -n "DOWN "
+		[[ `cat /sys/class/net/"$$interface"/carrier` == "1" ]] && echo "ONLINE" || echo "OFFLINE"
+	done
 .PHONY: help
 
 
+run:
+	@ # Run TARGET in simulation if NETWORK is not defined or on actual RobAIR otherwise
+ifdef NETWORK
+	$(MAKE) run-phys LAUNCH=ros-phys.launch:$(LAUNCH) ROBAIR_IP=192.168.0.175 CONTAINER_IP=192.168.0.174
+else
+	$(MAKE) run-node LAUNCH=ros-node.launch:$(LAUNCH) ROBAIR_IP=127.0.0.1 CONTAINER_IP=127.0.0.1
+endif
+.PHONY: run
+
 run-node:
-	@ # Run target TARGET on record RECORD
+	@ # Run target TARGET on record RECORD in simulation
 	test -n "$(RECORD)" || { echo "Please, specify RECORD env var!"; exit 1; }
-	test -n "$(TARGET)" || { echo "Please, specify TARGET env var!"; exit 1; }
 	xhost +local:docker
-	export LAUNCH=config/ros-node.launch:$(LAUNCH)
-	docker-compose -f ./docker/docker-compose.yml up --force-recreate $(BUILD)
+	docker-compose -f ./docker/docker-compose-node.yml up --force-recreate --attach roslaunch $(EXTRA)
 .PHONY: run-node
 
 run-phys:
 	@ # Run target TARGET on actual RobAIR with ROBAIR_IP
-	test -n "$(TARGET)" || { echo "Please, specify TARGET env var!"; exit 1; }
+	test -n "$(NETWORK)" || { echo "Please, specify NETWORK env var!"; exit 1; }
 	xhost +local:docker
-	export LAUNCH=config/ros-phys.launch:$(LAUNCH)
-	docker-compose -f ./docker/docker-compose.yml up --force-recreate $(BUILD)
+	docker-compose -f ./docker/docker-compose-phys.yml up --force-recreate --attach roslaunch $(EXTRA)
 .PHONY: run-phys
 
 

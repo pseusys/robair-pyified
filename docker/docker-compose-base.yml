@@ -20,10 +20,11 @@ services:
     devices:
       - /dev/dri:/dev/dri
     environment:
-      - ROBAIR_IP
+      - ROS_MASTER_URI=http://${CONTAINER_IP}:11311
+      - ROS_IP=${ROBAIR_IP}
+      - CONFIG
       - LAUNCH
       - TARGET
-      - CONFIG
       - RECORD
       # Some environment variables required for RVIZ GUI
       - DISPLAY=${DISPLAY}
@@ -36,13 +37,3 @@ services:
       interval: 5s
       timeout: 5s
       retries: 10
-
-networks:
-  default-network:
-    name: enp0s25  # TODO: check if it's important
-    driver: host
-    ipam:
-      config:
-        - subnet: 192.168.0.0/24
-        - gateway: 192.168.0.1
-        - ip_range: 192.168.0.174/32
