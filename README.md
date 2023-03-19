@@ -60,9 +60,9 @@ The following configuration options are supported:
 4. `RECORD` (required for emulation launch) - name of the file, containing recorded data to launch `rosbag` tool.  
    Records should be placed in the `assets/data` directory.  
    _Example:_ `make run ENV=example.env RECORD=2017-09-07-16-55-12.bag`
-5. `ROBAIR_IP` (default value: `192.168.0.175`, used if `NETWORK` is defined only) - IP address of RobAIR to connect.
+5. `ROBAIR_IP` (default value: `192.168.0.175`, used if `NETWORK` is defined only) - IP address of RobAIR to connect.  
    _Example:_ `make run-phys ENV=example.env ROBAIR_IP=192.168.0.175`
-6. `CONTAINER_IP` (default value: `192.168.0.174`, used if `NETWORK` is defined only) - IP address of the container.
+6. `CONTAINER_IP` (default value: `192.168.0.174`, used if `NETWORK` is defined only) - IP address of the container.  
    _Example:_ `make run-phys ENV=example.env CONTAINER_IP=192.168.0.174`
 
 The following convenience configuration options are also might be handy:
